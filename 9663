@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+int arr[16];
+int n;
+int result = 0;
+
+bool ispromise(int now,int y)
+{
+	for (int qwer = 1; qwer < y; qwer++)
+	{
+		int kiki1 = abs(y - qwer);
+		int kiki2 = abs(arr[qwer] - now);
+		if (kiki1 == kiki2 || now == arr[qwer])
+			return false;
+	}
+	return true;
+}
+void go(int stage)
+{
+	if (stage >n)
+	{
+		result++; return;
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		if (ispromise(i, stage))
+		{
+			arr[stage] = i;
+			go(stage + 1);
+		}
+	}
+}
+int main()
+{
+	cin >> n;
+	arr[0] = -100;
+	go(1);
+	cout << result << endl;
+	return 0;
+}
