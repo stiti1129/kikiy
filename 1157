@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+int arr[26];
+int main()
+{
+	string str;
+	getline(cin, str);
+	for (int i = 0; i < str.length(); i++)
+	{
+		int temp = toupper(str.at(i)) - 'A';
+		arr[temp]++;
+	}
+	int maxnum = 0;
+	int max = -1;
+	char maxalphabet;
+	for (int i = 0; i < 26; i++)
+		if (max < arr[i])
+			max = arr[i];
+	for (int i = 0; i < 26; i++)
+		if (max == arr[i])
+			maxalphabet = i, maxnum++;
+	if (maxnum >= 2)
+		cout << "?" << endl;
+	else
+	{
+		maxalphabet += 'A';
+		printf("%c\n", maxalphabet);
+	}
+	return 0;
+}
