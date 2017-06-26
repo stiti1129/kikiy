@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string.h>
+#include <algorithm>
+using namespace std;
+int arr[501][501];
+int dp[501][501];
+int n;
+int roff[4] = { -1,1,0,0 };
+int coff[4] = { 0,0,-1,1 };
+int go(int x, int y)
+{
+	if (dp[x][y])
+		return dp[x][y];
+	int &ans = dp[x][y];
+	for (int d = 0; d < 4; d++)
+	{
+		int nr = x + roff[d];
+		int nc = y + coff[d];
+		if (nr<1 || nc<1 || nr>n || nc>n)
+			continue;
+		if (arr[nr][nc] <= arr[x][y])
+			continue;
+		ans = max(ans, go(nr, nc) + 1);
+	}
+	return ans;
+}
+int main()
+{
+	int result = 0;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			cin >> arr[i][j];
+	for(int i=1;i<=n;i++)
+		for (int j = 1; j <= n; j++)
+		{
+	//		memset(dp, 0, sizeof(dp));
+			int temp = go(i, j);
+			if (temp > result)
+				result = temp;
+		}
+	cout << result+1 << endl;
+	return 0;
+}
