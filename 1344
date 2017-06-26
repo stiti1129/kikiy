@@ -1,0 +1,51 @@
+#include <iostream>
+#include <math.h>
+#include <iomanip>
+#include <string.h>
+using namespace std;
+long double dp1[19][19]; // team a
+long double dp2[19][19]; //team b
+double p1, p2;
+int main()
+{
+	long double result = 0;
+	cin >> p1 >> p2;
+	p1 /= 100;
+	p2 /= 100;
+	for (int i = 0; i <= 18; i++)
+		for (int j = 0; j <= 18; j++)
+		{
+			dp1[i][j] = 0;
+			dp2[i][j] = 0;
+		}
+	for (int i = 1; i <= 18; i++)
+	{
+		dp1[i][0] += pow(1 - p1, i);
+		dp2[i][0] += pow(1 - p2, i);
+	}
+	dp1[1][1] = p1;
+	dp2[1][1] = p2;
+	for (int i = 2; i <= 18; i++)
+	{
+		for (int j = 1; j <= i; j++)
+		{
+			dp1[i][j] += dp1[i - 1][j - 1] * p1;
+			dp1[i][j] += dp1[i - 1][j] * (1 - p1);
+			dp2[i][j] += dp2[i - 1][j - 1] * p2;
+			dp2[i][j] += dp2[i - 1][j] * (1 - p2);
+		}
+	}
+	for (int i = 0; i <= 18; i++)
+	{
+		if (i == 2 || i == 3 || i == 5 || i == 7 || i == 11 || i == 13 || i == 17)
+			continue;
+		for (int j = 0; j <= 18; j++)
+		{
+			if (j == 2 || j == 3 || j == 5 || j == 7 || j == 11 || j == 13 || j == 17)
+				continue;
+			result += dp1[18][i] * dp2[18][j];
+		}
+	}
+	printf("%.20Lf\n", 1 - result);
+	return 0;
+}
