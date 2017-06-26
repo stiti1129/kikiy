@@ -1,0 +1,39 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int arr[121];
+int arr2[121];
+int dp[300001];
+int n;
+
+int main()
+{
+	cin >> n; 
+	arr[1] = 1;
+	arr2[1] = 1;
+	for (int i = 1; i <= 300000; i++)
+		dp[i] = -1;
+	for (int i = 2; i < 121; i++)
+	{
+		arr2[i] = arr2[i - 1] + i;
+		arr[i] = arr[i - 1] + arr2[i];
+	}
+	for (int i = 1; i <= 120; i++)
+	{
+		dp[arr[i]] = 1;
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		int & ans = dp[i];
+		int j = 1;
+		while (i - arr[j] >= 0)
+		{
+			if(dp[i-arr[j]]+1 <ans || ans ==-1)
+				ans = dp[i - arr[j]] + 1;
+			j++;
+		}
+	}
+//	cout << arr[120] << endl;
+	cout << dp[n] << endl;
+	return 0;
+}
