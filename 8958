@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+char arr[82];
+int score[82];
+int testCase;
+int main()
+{
+	cin >> testCase;
+	for (int t = 0; t < testCase; t++)
+	{
+		cin >> arr;
+		fill(score, score + 80, 0);
+		int len = strlen(arr);
+		for (int i = 0; i < len; i++)
+		{
+			if (arr[i] == 'O')
+			{
+				if (i == 0)
+					score[i] = 1;
+				else
+					score[i] = score[i - 1] + 1;
+			}
+			else
+				score[i] = 0;
+		}
+		int result = 0;
+		for (int i = 0; i < len; i++)
+			result += score[i];
+		cout << result << endl;
+
+	}
+}
