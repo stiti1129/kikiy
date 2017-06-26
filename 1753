@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+#include <functional>
+using namespace std;
+
+vector<pair<int, int>> graph[20001];
+int V, E, S;
+bool visited[20001];
+int dist[20001];
+const int INF = 987654321;
+void go()
+{
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
+	dist[S] = 0;
+	Q.push(make_pair(S, 0));
+	while (!Q.empty())
+	{
+		int curr = Q.top().first;
+		Q.pop();
+		for (int d = 0; d < graph[curr].size(); d++)
+		{
+			int next = graph[curr][d].first; int dis = graph[curr][d].second;
+			if (dist[next] > dist[curr] + dis)
+			{
+				dist[next] = dist[curr] + dis;
+				Q.push(make_pair(next, dist[next]));
+			}
+		}
+	}
+}
+int main()
+{
+	cin >> V >> E >> S;
+	int a, b, c;
+	for (int i = 1; i <= E; i++)
+	{
+		cin >> a >> b >> c;
+		graph[a].push_back(make_pair(b, c));
+	}
+	fill(dist, dist + 20001, INF);
+	go();
+	for (int i = 1; i <= V; i++)
+		if (dist[i] == INF)
+			cout << "INF" << endl;
+		else
+			cout << dist[i] << endl;
+	return 0;
+}
