@@ -1,0 +1,74 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <functional>
+#include <algorithm>
+using namespace std;
+
+vector<pair<int, int>> graph[801];
+int V, E, V1, V2;
+int dist[801];
+const int INF = 987654321;
+int go(int startV, int endV)
+{
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> Q;
+	Q.push(make_pair(startV, 0));
+	dist[startV] = 0;
+	while (!Q.empty())
+	{
+		int curr = Q.top().first;
+		Q.pop();
+		for (int d = 0; d < graph[curr].size(); d++)
+		{
+			int next = graph[curr][d].first, dis = graph[curr][d].second;
+			if (dist[next] > dis + dist[curr])
+			{
+				dist[next] = dis + dist[curr];
+				Q.push(make_pair(next, dist[next]));
+			}
+		}
+	}
+	return dist[endV];
+}
+int main()
+{
+	cin >> V >> E;
+	int a, b, c;
+	for (int i = 1; i <= E; i++)
+	{
+		cin >> a >> b >> c;
+		graph[a].push_back(make_pair(b, c));
+		graph[b].push_back(make_pair(a, c));
+	}
+	cin >> V1 >> V2;
+	int temp1, temp2, temp3, sum1,sum2;
+	fill(dist, dist + 801, INF);
+	temp1 = go(1, V1);
+	fill(dist, dist + 801, INF);
+	temp2 = go(V1, V2);
+	fill(dist, dist + 801, INF);
+	temp3 = go(V2, V);
+	if (temp1 == INF || temp2 == INF || temp3 == INF)
+		sum1 = -1;
+	else
+		sum1 = temp1 + temp2 + temp3;
+	fill(dist, dist + 801, INF);
+	temp1 = go(1, V2);
+	fill(dist, dist + 801, INF);
+	temp2 = go(V2, V1);
+	fill(dist, dist + 801, INF);
+	temp3 = go(V1, V);
+	if (temp1 == INF || temp2 == INF || temp3 == INF)
+		sum2 = -1;
+	else
+		sum2 = temp1 + temp2 + temp3;
+	if (sum1 == -1 && sum2 == -1)
+		cout << -1 << endl;
+	else if (sum1 == -1)
+		cout << sum2 << endl;
+	else if (sum2 == -1)
+		cout << sum1 << endl;
+	else
+		cout << min(sum1, sum2) << endl;
+	return 0;
+}
