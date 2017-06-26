@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+
+int arr[51][2];
+int n;
+int result[51];
+void go(int per)
+{
+	int num = 1;
+	for (int i = 1; i <= n; i++)
+	{
+		if (arr[i][0] > arr[per][0] && arr[i][1] > arr[per][1])
+			num++;
+	}
+	result[per] = num;
+}
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		cin >> arr[i][0] >> arr[i][1];
+	for (int i = 1; i <= n; i++)
+		go(i);
+	for (int i = 1; i <= n; i++)
+		cout << result[i] << ' ';
+	cout << endl;
+	return 0;
+}
