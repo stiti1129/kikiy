@@ -1,0 +1,51 @@
+#include <iostream>
+
+using namespace std;
+const int INF = 987654321;
+int arr[101][101];
+int n, m;
+
+int main()
+{
+	cin >> n >> m;
+	int a, b, c;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			arr[i][j] = INF;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> a >> b >> c;
+		if(arr[a][b] >c)
+			arr[a][b] = c;
+	}
+	/*
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+			if (arr[i][j] == INF)
+				cout << 0 << ' ';
+			else
+				cout << arr[i][j] << ' ';
+		cout << endl;
+	}
+	*/
+	for(int k=1;k<=n;k++)
+		for(int i =1;i<=n;i++)
+			for (int j = 1; j <= n; j++)
+			{
+				if (i == j || i == k || j == k)
+					continue;
+				if (arr[i][j] > arr[i][k] + arr[k][j])
+					arr[i][j] = arr[i][k] + arr[k][j];
+			}
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= n; j++)
+			if (arr[i][j] == INF)
+				cout << 0 << ' ';
+			else
+				cout << arr[i][j] << ' ';
+		cout << endl;
+	}
+	return 0;
+}
