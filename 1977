@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+	int n, m;
+	cin >> n >> m;
+	int min = 987654321;
+	int result = 0;
+	int kiki = sqrt(n);
+	for (kiki; kiki * kiki <= m; kiki++)
+	{
+		int temp = kiki*kiki;
+		if (temp >= n && temp <= m)
+		{
+			if (min > temp)
+				min = temp;
+			result += temp;
+		}
+	}
+	if (result == 0)
+		cout << -1 << endl;
+	else
+	{
+		cout << result << endl;
+		cout << min << endl;
+	}
+	return 0;
+}
