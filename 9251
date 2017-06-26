@@ -1,0 +1,30 @@
+#include <iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+char arr[1001];
+char arr2[1001];
+int dp[1001][1001];
+int go(int len1, int len2)
+{
+	if (len1 < 0 || len2 < 0)
+		return 0;
+	if (dp[len1][len2] !=0)
+		return dp[len1][len2];
+	int & ans = dp[len1][len2];
+	if (arr[len1] == arr2[len2])
+		ans = go(len1 - 1, len2 - 1) + 1;
+	else
+		ans = max(go(len1 - 1, len2), go(len1, len2 - 1));
+	return dp[len1][len2];
+}
+int main()
+{
+	cin >> arr;
+	cin >> arr2;
+	int max = 0;
+	int len1 = strlen(arr);
+	int len2 = strlen(arr2);
+	cout << go(len1 - 1, len2 - 1) << endl;
+	return 0;
+}
