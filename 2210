@@ -1,0 +1,58 @@
+#include <iostream>
+#include <queue>
+#include <math.h>
+using namespace std;
+bool chk[1000000];
+int arr[6][6];
+int roff[4] = { 1,-1,0,0 };
+int coff[4] = { 0,0,1,-1 };
+typedef struct
+{
+	int x, y;
+	int num;
+	long long sum;
+}pos;
+void bfs(int i, int j)
+{
+	pos fst; fst.x = i; fst.y = j; fst.num = 1; fst.sum = arr[i][j]*pow(10,5);
+	queue<pos> Q;
+	Q.push(fst);
+	while (!Q.empty())
+	{
+		pos temp = Q.front();
+//		cout << temp.sum << endl;
+		if (temp.num == 6)
+		{
+//			cout << temp.sum << endl;
+			chk[temp.sum] = true;
+		}
+		if (temp.num > 6) return;
+		Q.pop();
+		for (int d = 0; d < 4; d++)
+		{
+			int nr = temp.x + roff[d];
+			int nc = temp.y + coff[d];
+			if (nr > 5 || nc > 5 || nr < 1 || nc < 1)
+				continue;
+			pos ttemp; ttemp.x = nr; ttemp.y = nc; ttemp.num = temp.num + 1;
+			ttemp.sum = temp.sum + (arr[nr][nc] * pow(10, 6 - ttemp.num));
+			Q.push(ttemp);
+		}
+	}
+}
+int main()
+{
+	long long result = 0;
+	for (int i = 1; i <= 5; i++)
+		for (int j = 1; j <= 5; j++)
+			cin >> arr[i][j];
+	for (int i = 1; i <= 5; i++)
+		for (int j = 1; j <= 5; j++)
+			bfs(i, j);
+//	bfs(4, 4);
+	for (int i = 0; i <= 1000000; i++)
+		if (chk[i])
+			result++;
+	cout << result << endl;
+	return 0;
+}
