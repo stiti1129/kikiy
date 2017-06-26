@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <string.h>
+#include <queue>
+using namespace std;
+int n, k;
+vector<int> graph[401];
+bool visited[401];
+int s;
+int a1, a2;
+bool ts(int start, int end)
+{
+	queue<int> Q;
+	visited[start] = true;
+	Q.push(start);
+	while (!Q.empty())
+	{
+		int temp = Q.front();
+		Q.pop();
+		for (int d = 0; d < graph[temp].size(); d++)
+		{
+			if (visited[graph[temp][d]])
+				continue;
+			if (graph[temp][d] == end)
+				return true;
+			Q.push(graph[temp][d]);
+			visited[graph[temp][d]] = true;
+		}
+	}
+	return false;
+}
+int main()
+{
+	cin >> n >> k;
+	for (int i = 1; i <= k; i++)
+	{
+		int s, e;
+		cin >> s >> e;
+		graph[s].push_back(e);
+	}
+	cin >> s;
+	for (int i = 1; i <= s; i++)
+	{
+		cin >> a1 >> a2;
+		memset(visited, false, sizeof(visited));
+		bool ans =ts(a1, a2);
+		if (ans == true)
+		{
+			cout << -1 << endl;
+			continue;
+		}
+		memset(visited, false, sizeof(visited));
+		bool ans2 = ts(a2, a1);
+		if (ans2 == true)
+		{
+			cout << 1 << endl;
+			continue;
+		}
+		cout << 0 << endl;
+	}
+	return 0;
+}
