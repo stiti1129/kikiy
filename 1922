@@ -1,0 +1,69 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+int result = 0;
+int n, m;
+bool visited[1001];
+const int INF = 987654321;
+vector<pair<int,int>> graph[1001];
+int arr[1001][1001];
+void go()
+{
+	queue<int> Q;
+	visited[1] = true;
+	while (1)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			if (visited[i])
+				Q.push(i);
+		}
+		int node;
+		int val = INF;
+		while (!Q.empty())
+		{
+			int temp = Q.front();
+			Q.pop();
+			for (int d = 0; d < graph[temp].size(); d++)
+			{
+				int next = graph[temp][d].first;
+				int weight = graph[temp][d].second;
+				if (visited[next])
+					continue;
+				if (weight < val)
+				{
+					val = weight;
+					node = next;
+				}
+			}
+		}
+		visited[node] = true;
+		result += val;
+		bool bit = false;
+		for (int i = 1; i <= n; i++)
+		{
+			if (!visited[i])
+				bit = true;
+		}
+		if (!bit)
+		{
+			cout << result << endl;
+			return;
+		}
+	}
+}
+int main()
+{
+	cin >> n;
+	cin >> m;
+	int a, b, c;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> a >> b >> c;
+		graph[a].push_back(make_pair(b, c));
+		graph[b].push_back(make_pair(a, c));
+	}
+	go();
+	return 0;
+}
