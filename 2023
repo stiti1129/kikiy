@@ -1,0 +1,49 @@
+#include <iostream>
+#include<math.h>
+using namespace std;
+int arr[9];
+int n;
+bool ispromise(int stage, int kiki)
+{
+	arr[stage] = kiki;
+	long long temp=0;
+	for (int i = 1; i <= stage; i++)
+	{
+		temp += arr[i] * pow(10,(stage - i));
+	}
+//	cout << temp << endl;
+	for (long long i = 2; i <= temp / 2; i++)
+	{
+		if (temp%i == 0)
+			return false;
+	}
+	return true;
+}
+void go(int stage)
+{
+	if (stage > n)
+	{
+		if (arr[1] == 1)
+			return;
+		else
+		{
+			for (int i = 1; i <= n; i++)
+				cout << arr[i];
+			cout << endl;
+			return;
+		}
+	}
+	for (int i = 1; i <= 9; i++)
+	{
+		if (ispromise(stage, i))
+		{
+			go(stage + 1);
+		}
+	}
+}
+int main()
+{
+	cin >> n;
+	go(1);
+	return 0;
+}
