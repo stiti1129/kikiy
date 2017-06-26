@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+char arr[11];
+int dup[27];
+int ans[12];
+int result = 0;
+int len;
+int fac(int i)
+{
+	if (i == 0) return 1;
+	if (i == 1) return 1;
+	else
+		return i*fac(i - 1);
+}
+bool ispromise(int stage, int kiki)
+{
+	if (stage == 1)
+		return true;
+	if (arr[ans[stage - 1]] == arr[kiki])
+		return false;
+	for (int i = 1; i < stage; i++)
+		if (ans[i] == kiki)
+			return false;
+	return true;
+}
+void go(int stage)
+{
+	if (stage > len)
+	{
+//		for (int i = 1; i <= len; i++)
+//			cout << ans[i] << ' ';
+//		cout << endl;
+		result++;
+		return;
+	}
+	for (int i = 0; i < len; i++)
+	{
+		if (ispromise(stage, i))
+		{
+//		cout << stage << ' ' << i << endl;
+			ans[stage] = i;
+			go(stage + 1);
+		}
+	}
+}
+int main()
+{
+	scanf("%s", arr);
+	len = strlen(arr);
+	for (int i = 0; i < len; i++)
+		dup[arr[i] - 'a']++;
+	go(1);
+	for (int i = 0; i < 27; i++)
+		result /= fac(dup[i]);
+	cout << result << endl;
+	return 0;
+}
