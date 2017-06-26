@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string.h>
+const int mod = 1000000;
+int kiki = 0;
+using namespace std;
+long long dp[1001][3][2];
+long long go(int d,int a, int l);
+int n;
+int main()
+{
+	cin >> n;
+	memset(dp, 0, sizeof(dp));
+	cout << go(0, 0, 0) << endl;
+	return 0;
+}
+
+long long go(int d, int a, int l)
+{
+	if (d == n)
+	{
+		return 1;
+	}
+	if (dp[d][a][l]) return dp[d][a][l]%mod;
+	
+	if (a < 2 && l < 1)
+	{
+		dp[d][a][l] += go(d + 1, a + 1, l);
+		dp[d][a][l] += go(d + 1, 0, l + 1);
+		dp[d][a][l] += go(d + 1, 0, l);
+	}
+	else if (a < 2)
+	{
+		dp[d][a][l] += go(d + 1, a + 1, l);
+		dp[d][a][l] += go(d + 1, 0, l);
+	}
+	else if (l < 1)
+	{
+		dp[d][a][l] += go(d + 1, 0, l + 1);
+		dp[d][a][l] += go(d + 1, 0, l);
+	}
+	else
+		dp[d][a][l] += go(d + 1, 0, l);
+	
+	return dp[d][a][l]%mod;
+}
