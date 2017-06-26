@@ -1,0 +1,69 @@
+#include <iostream>
+#include <queue>
+#include <string.h>
+using namespace std;
+int roff[4] = { 0,0,1,-1 };
+int coff[4] = { 1,-1,0,0 };
+char arr[101][101];
+int n;
+bool visited[101][101];
+typedef struct
+{
+	int x, y;
+}pos;
+void bfs(int i, int j)
+{
+	queue<pos> Q;
+	pos fst; fst.x = i; fst.y = j;
+	Q.push(fst);
+	visited[i][j] = true;
+	while (!Q.empty())
+	{
+		pos temp = Q.front();
+		Q.pop();
+		for (int d = 0; d < 4; d++)
+		{
+			int nr = temp.x + roff[d];
+			int nc = temp.y + coff[d];
+			if (nr > n || nc > n || nr < 1 || nc < 1)
+				continue;
+			if (visited[nr][nc])
+				continue;
+			if (arr[nr][nc] != arr[temp.x][temp.y])
+				continue;
+			pos ttemp; ttemp.x = nr; ttemp.y = nc;
+			visited[nr][nc] = true;
+			Q.push(ttemp);
+		}
+	}
+}
+int main()
+{
+	int np = 0;
+	int nnp = 0;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			cin >> arr[i][j];
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			if (!visited[i][j])
+			{
+				bfs(i, j);
+				np++;
+			}
+	memset(visited, false, sizeof(visited));
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+			if (arr[i][j] == 'G')
+				arr[i][j] = 'R';
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= n; j++)
+				if (!visited[i][j])
+				{
+					bfs(i, j);
+					nnp++;
+				}
+	cout << np << ' ' << nnp << endl;
+	return 0;
+}
