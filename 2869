@@ -1,0 +1,23 @@
+#include <iostream>
+
+using namespace std;
+
+long long a, b, v;
+
+int main()
+{
+	cin >> a >> b >> v;
+	long long now = 0;
+	long long day = 0;
+	while (1)
+	{
+		day++;
+		now += a;
+		if (now >= v)
+		{
+			cout << day << endl;
+			return 0;
+		}
+		now -= b;
+	}
+}
