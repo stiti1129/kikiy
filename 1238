@@ -1,0 +1,105 @@
+#include <iostream>
+#include <functional>
+#include <utility>
+#include <memory.h>
+#include <queue>
+#include <algorithm>
+const int INF = 987654321;
+using namespace std;
+int NtoX[1001][1001];
+int XtoN[1001];
+typedef pair<int, int> P;
+vector<P> graph[1001];
+int n, m, x;
+void go1(int start)
+{
+	bool visited[1001] = { false };
+	memset(visited, false, sizeof(visited));
+	NtoX[start][start] = 0;
+	priority_queue<P, vector<P>, greater<P>> Q;
+	Q.push(P(0,start));
+	while (!Q.empty())
+	{
+		if (visited[x])
+			break;
+		int curr;
+		do {
+			curr = Q.top().second;
+			Q.pop();
+		} while (visited[curr] && !Q.empty());
+		if (visited[curr])
+			break;
+		visited[curr] = true;
+		for (int d = 0; d < graph[curr].size(); d++)
+		{
+			int next = graph[curr][d].first, dis = graph[curr][d].second;
+			if (NtoX[start][next] > NtoX[start][curr] + dis)
+			{
+				NtoX[start][next] = NtoX[start][curr] + dis;
+				Q.push(P(NtoX[start][next],next));
+			}
+		}
+	}
+}
+void go2(int start)
+{
+	fill(XtoN,XtoN + n + 1,INF);	
+	bool visited[1001] = { false };
+	memset(visited, false, sizeof(visited));
+	priority_queue<P, vector<P>, greater<P>> Q;
+	Q.push(P(0,start));
+	XtoN[start] = 0;
+	while (!Q.empty())
+	{
+		int curr;
+		do
+		{
+			curr = Q.top().second;
+			Q.pop();
+		} while (visited[curr] && !Q.empty());
+		if (visited[curr])
+			break;
+		visited[curr] = true;
+		for (int d = 0; d < graph[curr].size(); d++)
+		{
+			int next = graph[curr][d].first; int dis = graph[curr][d].second;
+			if (XtoN[next] > XtoN[curr] + dis)
+			{
+				XtoN[next] = XtoN[curr] + dis;
+				Q.push(P(XtoN[next],next));
+			}
+		}
+	}
+}
+int main()
+{
+	cin >> n >> m >> x;
+	int a, b, c;
+	for (int i = 1; i <= m; i++)
+	{
+		cin >> a >> b >> c;
+		graph[a].push_back(P(b, c));
+	}
+	for (int i = 0; i <= 1000; i++)
+		for (int j = 0; j <= 1000; j++)
+			NtoX[i][j] = INF;
+	fill(XtoN, XtoN + n + 1, INF);
+	for (int i = 1; i <= n; i++)
+		go1(i);
+	go2(x);
+	int result = 0;
+//	for (int i = 1; i <= n; i++)
+//		cout << NtoX[i][x] << ' ';
+//	cout << endl;
+//	for (int i = 1; i <= n; i++)
+//		cout << XtoN[i] << ' ';
+//	cout << endl;
+	for (int i = 1; i <= n; i++)
+	{
+			int temp = NtoX[i][x] + XtoN[i];
+			if (temp > result)
+				result = temp;
+	}
+	cout << result << endl;
+	return 0;
+}
