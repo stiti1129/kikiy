@@ -1,0 +1,25 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+double dp[51][2];
+int arr[51];
+int n, k;
+int main()
+{
+	double result;
+	double p1, p2;
+	cin >> n >> k;
+	for (int i = 1; i <= k; i++)
+		cin >> arr[i];
+	dp[0][0] = n;
+	dp[0][1] = 0.0;
+	for (int i = 1; i <= k; i++)
+	{
+		p1 = (double)arr[i] / n; //뒤집힐 확률
+		p2 = 1 - p1;
+		dp[i][0] = dp[i - 1][1] * p1 + dp[i - 1][0] * p2;
+		dp[i][1] = dp[i - 1][1] * p2 + dp[i - 1][0] * p1;
+	}
+	cout << setprecision(20) << dp[k][0] << endl;
+	return 0;
+}
