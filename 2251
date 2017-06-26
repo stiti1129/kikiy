@@ -1,0 +1,54 @@
+#include <iostream>
+
+using namespace std;
+int fa, fb, fc;
+bool visited[201][201][201];
+bool check[201];
+void go(int a, int b, int c)
+{
+	//cout << a << ' ' << b << ' ' << c << endl;
+	if (a == 0)
+		check[c] = true;
+	if (visited[a][b][c])
+		return;
+	visited[a][b][c] = true;
+	//a to b
+	if (fb - b >= a)
+		go(0, b + a, c);
+	else
+		go(a - (fb - b), fb, c);
+	//b to a
+	if (fa - a >= b)
+		go(a+b, 0, c);
+	else
+		go(fa, b - (fa - a) , c);
+	// a to c
+	if (fc - c >= a)
+		go(0, b , a + c);
+	else
+		go(a - (fc - c), b, fc);
+	// c to a
+	if (fa - a >= c)
+		go(a+c, b, 0);
+	else
+		go(fa,b,c - (fa - a));
+	// b to c
+	if (fc - c >= b)
+		go(a, 0,  b+c);
+	else
+		go(a, b - (fc - c), fc);
+	// c to b
+	if (fb - b  >= c)
+		go(a, b+c, 0);
+	else
+		go(a, fb, c - (fb - b));
+}
+int main()
+{
+	cin >> fa >> fb >> fc;
+	go(0, 0, fc);
+	for (int i = 0; i <= 200; i++)
+		if (check[i])
+			cout << i << ' ';
+	return 0;
+}
