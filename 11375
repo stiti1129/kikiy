@@ -1,0 +1,60 @@
+#include <iostream>
+#include <memory.h>
+
+using namespace std;
+int aMatch[1001];
+int bMatch[1001];
+bool adj[1001][1001];
+bool visited[1001];
+int n, m;
+bool dfs(int start)
+{
+	if (visited[start])
+		return false;
+	visited[start] = true;
+
+	for(int i=1;i<=m;i++)
+		if (adj[start][i])
+		{
+			if (bMatch[i] == -1 || dfs(bMatch[i]))
+			{
+				bMatch[i] = start;
+				if(aMatch[start])
+				aMatch[start] = i;
+				return true;
+			}
+		}
+	return false;
+}
+void bipartite()
+{
+	int result = 0;
+	memset(aMatch, -1, sizeof(aMatch));
+	memset(bMatch, -1, sizeof(bMatch));
+	for (int i = 1; i <= n; i++)
+	{
+		memset(visited, false, sizeof(visited));
+		if (dfs(i))
+			result++;
+		memset(visited, false, sizeof(visited));
+		if (dfs(i))
+			result++;
+	}
+	cout << result << endl;
+}
+int main()
+{
+	cin >> n >> m;
+	int temp;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> temp;
+		int temp2;
+		for (int j = 1; j <= temp; j++)
+		{
+			cin >> temp2;
+			adj[i][temp2] = true;
+		}
+	}
+	bipartite();
+}
