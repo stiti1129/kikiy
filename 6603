@@ -1,0 +1,38 @@
+#include <iostream>
+#include <algorithm>
+#include <string.h>
+using namespace std;
+
+int arr[14];
+int k;
+int ans[14];
+void go(int before, int stage, int len)
+{
+	if (stage > 6)
+	{
+		for (int i = 1; i <=6; i++)
+			cout << ans[i]<<' ';
+		cout << endl;
+	}
+	if (len>= 6) return;
+	for (int i = before + 1; i <= k; i++)
+	{
+		ans[stage] = arr[i];
+		go(i, stage + 1, len + 1);
+	}
+}
+int main()
+{
+	while (1)
+	{
+		cin >> k;
+		if (k == 0) return 0;
+		for (int i = 1; i <= k; i++)
+			cin >> arr[i];
+		sort(arr + 1, arr + k);
+		go(0, 1, 0);
+		cout << endl;
+		memset(ans, 0, sizeof(ans));
+		memset(arr, 0, sizeof(arr));
+	}
+}
