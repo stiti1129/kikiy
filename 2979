@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+int arr[3];
+int car[3][2];
+int result;
+int main()
+{
+	cin >> arr[0] >> arr[1] >> arr[2];
+	for (int i = 0; i <= 2; i++)
+		cin >> car[i][0] >> car[i][1];
+	for (int i = 1; i <= 100; i++)
+	{
+		int nCar = 0;
+		for (int j = 0; j <= 2; j++)
+		{
+			if (car[j][0] < i && car[j][1] >= i)
+				nCar++;
+		}
+		if (nCar == 1)
+			result += arr[0];
+		else if (nCar == 2)
+			result += 2 * arr[1];
+		else if(nCar==3)
+			result += 3 * arr[2];
+	}
+
+	cout << result << endl;
+	return 0;
+}
