@@ -1,0 +1,41 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+char arr[16];
+char ans[16];
+int l, c;
+void go(int now, int stage, int len)
+{
+	if (len > l) return;
+	if (stage > l)
+	{
+		int num1 = 0, num2 = 0;
+		for (int i = 1; i <= l; i++)
+		{
+			if (ans[i] == 'a' || ans[i] == 'e' || ans[i] == 'i' || ans[i] == 'o' || ans[i] == 'u')
+				num1++;
+			else
+				num2++;
+		}
+		if (num1 == 0 || num2 <= 1)
+			return;
+		for (int i = 1; i <= l; i++)
+			cout << ans[i];
+		cout << endl;
+	}
+	for (int i = now + 1; i <= c; i++)
+	{
+		ans[stage] = arr[i];
+		go(i, stage + 1,len+1);
+	}
+}
+int main()
+{
+	cin >> l >> c;
+	for (int i = 1; i <= c; i++)
+		cin >> arr[i];
+	sort(arr + 1, arr + c+ 1);
+	go(0, 1,0);
+	return 0;
+}
