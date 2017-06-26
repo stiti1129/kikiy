@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int roff[4] = { -1,1,0,0 };
+int coff[4] = { 0,0,-1,1 };
+char arr[21][21];
+int dp[21][21];
+int n, m;
+int result = 0;
+void go(int i, int j,unsigned long long used,int len)
+{
+//	cout << i << ' ' << j << ' ' << used <<' ' <<len<< endl;
+	for (int d = 0; d < 4; d++)
+	{
+		int nr = i + roff[d];
+		int nc = j + coff[d];	
+		if ((used >> (arr[nr][nc] - 'A')) & 1)continue;
+		if (nr<1 || nc<1 || nr>n || nc>m) continue;
+		go(nr, nc, used | 1 << (arr[nr][nc] - 'A'), len + 1);
+		if (len + 1 > result) result = len + 1;
+	}
+}
+int main()
+{
+	cin >> n >> m;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= m; j++)
+			cin >> arr[i][j];
+	go(1, 1, 1 << (arr[1][1] - 'A'), 1);
+	if (result == 0)
+		cout << 1 << endl;
+	else
+		cout << result << endl;
+	return 0;
+}
