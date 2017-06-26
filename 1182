@@ -1,0 +1,31 @@
+#include <iostream>
+
+using namespace std;
+
+int result = 0;
+int arr[21];
+int n, s;
+void go(int now)
+{
+	int cnt = 1;
+	int temp = 0;
+	while (now > 0)
+	{
+		if (now & 1)
+			temp += arr[cnt];
+		now >>= 1;
+		cnt++;
+	}
+	if (temp == s)
+		result++;
+}
+int main()
+{
+	cin >> n >> s;
+	for (int i = 1; i <= n; i++)
+		cin >> arr[i];
+	for (int i = 1; i < (1 << n); i++)
+		go(i);
+	cout << result << endl;
+	return 0;
+}
