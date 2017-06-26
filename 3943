@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+int dp[100001];
+int T,n;
+int main()
+{
+	for (int i = 2; i <= 100000; i++)
+	{
+		int temp = i;
+		int max = 0;
+		while (temp != 1)
+		{
+			if (temp > max)
+				max = temp;
+			if (temp % 2 == 0)
+				temp /= 2;
+			else
+				temp = (3 * temp) + 1;
+		}
+		dp[i] = max;
+	}
+	cin >> T;
+	for (int test = 0; test < T; test++)
+	{
+		scanf("%d", &n);
+		if (n == 1)
+			printf("1\n");
+		else
+			printf("%d\n", dp[n]);
+	}
+	return 0;
+}
