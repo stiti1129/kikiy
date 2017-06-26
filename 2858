@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int r, b;
+int go(int edge)
+{
+	for (int i = 3; i < edge; i++)
+	{
+		if ((i - 2) * (edge - i - 2) == b)
+			return i;
+	}
+}
+int main()
+{
+	cin >> r >> b;
+	int edge = (r + 4) / 2;
+	int l = go(edge);
+	int w = edge - l;
+	if (l > w)
+		cout << l << ' ' << w << endl;
+	else
+		cout << w << ' ' << l << endl;
+	return 0;
+}
