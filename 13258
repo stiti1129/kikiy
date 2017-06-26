@@ -1,0 +1,29 @@
+#include <iostream>
+
+using namespace std;
+double arr[51];
+int jkiki, c,n;
+double dp[1001][51];
+
+int main()
+{
+	double sum = 0;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> arr[i];
+		sum += arr[i];
+		dp[0][i] = arr[i];
+	}
+	cin >> jkiki >> c;
+	for (int i = 1; i <= c; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			dp[i][j] +=dp[i-1][j] +(dp[i - 1][j] / sum) * jkiki;
+		}
+		sum += jkiki;
+	}
+	printf("%.20f\n", dp[c][1]);
+	return 0;
+}
